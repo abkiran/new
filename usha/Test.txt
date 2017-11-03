@@ -1,0 +1,5 @@
+Simpson, Homer, Male, 1976
+Simpson, Marge, Female, 1978
+Simpson, Bart, Male, 2002 
+Simpson, Lisa, Female, 2004 
+Simpson, Maggie, Female, 2011
