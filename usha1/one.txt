@@ -1,3 +1,3 @@
-kiran,A1,12
-usha,A2,13
-sree,A3,11
+usha,a1,101
+sree,a2,102
+kiran,a3,103

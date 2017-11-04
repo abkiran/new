@@ -34,7 +34,7 @@ GSList* read(char *filename, GSList* list)
 	size_t linesize=0;
 	int count;
 	char *line=NULL;
-
+	fp=fopen(filename,"r");
 	if(fp==NULL)
 	{
 		printf("\n filenot found");
