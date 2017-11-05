@@ -27,6 +27,15 @@ int display(GSList* list);
 void print_fun(gpointer item,gpointer prefix);
 int search_display(GSList* list);
 int search_comp(gpointer data,gpointer user_data);
+GSList* sort_id(GSList* list);
+int sort_comp(gpointer data1,gpointer data2);
+GSList* sort_name(GSList* list);
+int name_comp(gpointer data1,gpointer data2);
+GSList* del_last(GSList* list);
+GSList* reverse(GSList* list);
+GSList* del_all(GSList* list);
+int free_list(GSList* list);
+void free_fun(gpointer data);
 
 GSList* read(char *filename, GSList* list)
 {
@@ -113,7 +122,7 @@ int display(GSList* list)
 void print_fun(gpointer item,gpointer prefix)
 {
 	NODE* temp=(NODE*)item;
-	printf("%s %s %d\n",temp->name,temp->id,temp->dept_id);
+	printf("\nname=%s\n id=%s \n dept_id=%d\n",temp->name,temp->id,temp->dept_id);
 }
 
 int search_display(GSList* list)
@@ -136,12 +145,115 @@ int search_display(GSList* list)
 int search_comp(gpointer data,gpointer user_data)
 {
 	NODE* temp=(NODE*)data;
-	if(strcmp(temp->name,(char*)user_data==0))
+	if(strcmp(temp->name,user_data)==0)
 	{
 		return success;
 	}
 	return failure;
 }
+
+GSList* sort_id(GSList* list)
+{
+	if(list==NULL)
+	{
+		printf("\n list is empty");
+		return NULL;
+	}
+	GSList* temp = g_slist_sort(list,sort_comp);
+	display(temp);
+	return temp;
+}
+int sort_comp(gpointer data1,gpointer data2)
+{
+	NODE* temp1=(NODE*)data1;
+	NODE* temp2=(NODE*)data2;
+	if(temp1->dept_id == temp2->dept_id)
+	{
+		return 0;
+	}
+	else if(temp1->dept_id > temp2->dept_id)
+		return 1;
+	else
+		return -1;
+}
+
+GSList* sort_name(GSList* list)
+{
+	if(list==NULL)
+	{
+		printf("\n list is empty");
+		return NULL;
+	}
+	GSList* temp = g_slist_sort(list,name_comp);
+	display(temp);
+	return temp;
+}
+int name_comp(gpointer data1,gpointer data2)
+{
+	NODE* temp1=(NODE*)data1;
+	NODE* temp2=(NODE*)data2;
+	if(strcmp(temp1->name,temp2->name) < 0 )
+	{
+		return 0;
+	}
+	else if(strcmp(temp1->name, temp2->name)>0)
+	{
+		return 1;
+	}
+	return -1;
+}
+GSList* del_last(GSList* list)
+{
+	if (list == NULL)
+        {
+                printf("\nlist is empty");
+                return NULL;
+        }
+	GSList* last = g_slist_last(list);
+	list = g_slist_remove(list, (gconstpointer)last->data);
+	//list=g_slist_remove(list,(gconstpointer)last->data);
+	return list;
+}
+
+GSList* del_all(GSList* list)
+{
+	if(list == NULL)
+	{
+		printf("\n list is empty");
+		return NULL;
+	}
+	GSList* last = g_slist_last(list);
+	list = g_slist_remove_all(list,(gconstpointer)last->data);
+	return list;
+} 
+
+GSList* reverse(GSList* list)
+{
+	if(list==NULL)
+	{
+		printf("no elements");
+		return NULL;
+	}
+	list=g_slist_reverse(list);
+	return list;
+}
+int free_list(GSList* list)
+{
+	if (list != NULL)
+	{
+	g_slist_free_full(list, free_fun);
+	}
+	return success;
+
+}
+void free_fun(gpointer data)
+{
+	NODE *temp = (NODE*)data;
+	FREE(temp->name);
+	FREE(temp->id);
+
+}
+
 
 int main(int argc,char* argv[])
 {
@@ -154,7 +266,24 @@ int main(int argc,char* argv[])
 	list=read(argv[1],list);
 	display(list);	
 	search_display(list);
+	//printf("\nsorted id is\n");
+	//list= sort_id(list);
+	printf("\nsorted names are\n");
+	list = sort_name(list);
+	printf("\n sorted id are\n");
+	list=sort_id(list);
+	printf("\nafter deletion\n");
+	del_last(list);
+	del_last(list);
+	display(list);
+	printf("\n reverse list\n");
+	list=reverse(list);
+	display(list);
+	printf("\nall\n");
+//	del_all(list);
+//	display(list);
+	free_list(list);
+	display(list);
 	return 0;
 }
-
 

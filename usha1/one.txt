@@ -1,3 +1,6 @@
-usha,a1,101
-sree,a2,102
-kiran,a3,103
+usha,a1,103
+sree,a2,101
+kiran,a3,102
+rama,a4,100
+vinitha,a6,106
+xerox,a9,105
