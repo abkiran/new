@@ -1,0 +1,4 @@
+Amitabh, 100, 60
+Raju, 123, 78
+Raghu, 567, 80
+Raju Ram, 123

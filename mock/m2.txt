@@ -1,0 +1,51 @@
+/*************************************************************************************
+*  FILE NAME    : utility.h
+*
+*  DESCRIPTION: Include all header files, contain macro definitions, function declaration, .
+*  DATE: 06/11/2017
+*  NAME: Surabhi Kumari
+*
+*  Copyright @2017, Aricent Inc.
+**************************************************************************************/
+
+#include <utility.h>
+
+/*************************************************************************************
+*                               MAIN FUNCTION                                        *
+**************************************************************************************/
+int main(int argc, char *argv[])
+{
+	int 	input_str_count = 0,
+		total_input_str = 0;
+	char 	**input_string = NULL;
+	if (argc != ARGC)
+	{
+		printf("\nInsufficient arguments, please enter number of strings and then name of file.");
+		return FAILURE;
+	}
+	input_str_count = atoi(argv[1]);
+	
+	input_string = (char **)calloc(input_str_count, sizeof(char *));
+	
+	/*calling function to read input from the user, count the number of strings read and return it*/
+	total_input_str = read_str_frm_user(input_string, input_str_count, total_input_str);
+
+	/*Calling function to write all the strings to output file. If not successful then throw error and free all the memory and return.*/
+	if (!write_to_file(input_string, argv[2], total_input_str))
+	{
+		printf("\nUnable to write to the file.");
+		free_memory(input_string, total_input_str);
+		return FAILURE;
+	}
+	
+	/*Calling function to parse the string i.e, remove all the extra space and print those strings which have more than 2 words and also contain '?' and'-' in the string*/
+	if (!parse_string_and_print(input_string, total_input_str))
+	{
+		printf("\nUnable to parse the strings.");
+		free_memory(input_string, total_input_str);
+		return FAILURE;
+	}
+	
+	free_memory(input_string, total_input_str);
+	return SUCCESS;
+}

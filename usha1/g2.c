@@ -20,6 +20,8 @@ typedef struct emp
 	int dept_id;
 }NODE;
 
+GSList* write_to_file(char *filename, GSList* list);
+void write_fun(gpointer item,gpointer prefix);
 GSList* read(char *filename, GSList* list);
 NODE* createnode(char* str);
 GSList* add(GSList* list,char* str);
@@ -57,6 +59,35 @@ GSList* read(char *filename, GSList* list)
 	}
 	fclose(fp);
 	return list;
+}
+
+GSList* write_to_file(char *filename, GSList* list)
+{
+	FILE* fp=NULL;
+	fp=fopen(filename,"w");
+	if(fp==NULL)
+	{
+		printf("\n filenot found");
+		return NULL;
+	}
+	printf("%s\n", filename);
+	g_slist_foreach(list,write_fun,fp);
+
+	fclose(fp);
+	return list;
+}
+
+void write_fun(gpointer item,gpointer fp)
+{
+	NODE* temp=(NODE*)item;
+	char dept_id[16];
+	fputs(temp->name, fp);
+	fputs(",", fp);
+	fputs(temp->id, fp);
+	fputs(",", fp);
+	sprintf(dept_id, "%d", temp->dept_id);//To convert int to char
+	fputs(dept_id, fp);
+	fputs("\n", fp);
 }
 
 GSList* add(GSList* list,char* str)
@@ -106,8 +137,6 @@ NODE* createnode(char* str)
 	if(token!=NULL)
 	{
 		newnode->dept_id = atoi(token);
-
-		
 	}
 
 	return newnode;
@@ -257,6 +286,7 @@ void free_fun(gpointer data)
 
 int main(int argc,char* argv[])
 {
+	
 	GSList* list=NULL;
 	if(argc<2)
 	{
@@ -270,8 +300,14 @@ int main(int argc,char* argv[])
 	//list= sort_id(list);
 	printf("\nsorted names are\n");
 	list = sort_name(list);
+	write_to_file(argv[2],list);
+	printf("\nFile1 written\n" );
+	
 	printf("\n sorted id are\n");
 	list=sort_id(list);
+	write_to_file(argv[3],list);
+	printf("\nFile2 written\n" );
+	
 	printf("\nafter deletion\n");
 	del_last(list);
 	del_last(list);
@@ -280,6 +316,7 @@ int main(int argc,char* argv[])
 	list=reverse(list);
 	display(list);
 	printf("\nall\n");
+
 //	del_all(list);
 //	display(list);
 	free_list(list);
