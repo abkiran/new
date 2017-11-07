@@ -26,6 +26,7 @@ int main()
             i++;
         }
     }
+    
 	printf("%s", str);
 	strcpy(word,str);
 	char *p = strtok (str, " ");

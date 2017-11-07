@@ -1,6 +1,4 @@
-emp_id,emp_name,dept_id
-1,kiran,1
-2,usha,1
-3,ram,2
-4,seeta,2
-5,krishna,1
+Raju Ram, 123, 89;
+   Raghu,  567, 90;
+Amitabh, 567, 60;
+   Amitabh, 567, 60;
